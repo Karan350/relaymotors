@@ -1,0 +1,116 @@
+#define CW 7 //CW is defined as pin #7//
+
+#define CCW 8 //CCW is defined as pin #8//
+
+#define CW1 6 //CW is defined as pin #6//
+
+#define CCW1 9 //CCW is defined as pin #9//
+
+char command;
+
+String string;
+
+void setup() { //Setup runs once//
+
+Serial.begin(9600);
+
+pinMode(CW, OUTPUT); //Set CW as an output//
+
+pinMode(CCW, OUTPUT); //Set CCW as an output//
+
+pinMode(CW1, OUTPUT); //Set CW1 as an output//
+
+pinMode(CCW1, OUTPUT); //Set CCW1 as an output//
+
+
+}
+
+void loop() { //Loop runs forever//
+
+/*digitalWrite(CW,HIGH); //Motor runs clockwise//
+digitalWrite(CW1,HIGH); //Motor1 runs clockwise//
+
+delay(10000); //for 1 second//*/
+
+/*digitalWrite(CW, HIGH); //Motor stops//
+digitalWrite(CW1,HIGH); //Motor1 stops//
+digitalWrite(CCW, HIGH); //Motor stops//
+digitalWrite(CCW1,HIGH); //Motor1 stops//
+*/
+/*//delay(5000);
+
+digitalWrite(CCW, HIGH);//Motor runs counter-clockwise//
+digitalWrite(CCW1, HIGH);//Motor1 runs counter-clockwise//
+
+delay(10000); //For 1 second//
+
+digitalWrite(CCW, LOW); //Motor stops//
+digitalWrite(CCW1, LOW); //Motor1 stops//
+
+*/
+if (Serial.available() > 0)
+  {
+    string = "";
+  }
+  
+while(Serial.available() > 0)
+  {
+    command = ((byte)Serial.read());
+      if(command == ':')
+        {
+          break;
+        }
+      else
+        {
+          string += command;
+        }
+        Serial.print(string);
+      delay(1);
+  }
+
+if( string=="UP")
+  {
+   // Serial.print(string);
+    digitalWrite(CCW, HIGH);//Motor runs counter-clockwise//
+    digitalWrite(CCW1,HIGH); //Motor1 runs clockwise//     
+    digitalWrite(CW,LOW); //Motor runs clockwise//
+    digitalWrite(CW1,LOW); //Motor1 runs clockwise//
+    
+  } 
+else if ( string=="DN")
+  {
+    //Serial.print(string);
+    digitalWrite(CW,HIGH); //Motor runs clockwise//
+    digitalWrite(CW1,HIGH); //Motor1 runs clockwise//
+    digitalWrite(CCW, LOW);//Motor runs counter-clockwise//
+    digitalWrite(CCW1, LOW);//Motor1 runs counter-clockwise//    
+  }
+else if ( string=="RT")
+  {
+    //Serial.print(string);
+    digitalWrite(CW, HIGH);
+    digitalWrite(CCW1, HIGH);
+    digitalWrite(CCW, LOW);//Motor runs counter-clockwise//
+    digitalWrite(CW1,LOW); //Motor1 runs clockwise//     
+  }
+else if ( string=="LT")
+  {
+    //Serial.print(string);
+    digitalWrite(CCW, HIGH);//Motor runs counter-clockwise//
+    digitalWrite(CW1,HIGH); //Motor1 runs clockwise//     
+    digitalWrite(CW,LOW); //Motor runs clockwise//
+    digitalWrite(CCW1, LOW);//Motor1 runs counter-clockwise//    
+  }
+  else
+  {
+    //Serial.print(string);
+    digitalWrite(CW, HIGH); //Motor stops//
+    digitalWrite(CW1,HIGH); //Motor1 stops//
+    digitalWrite(CCW, HIGH); //Motor stops//
+    digitalWrite(CCW1,HIGH);
+  }
+  
+
+}
+
+//end of code//
